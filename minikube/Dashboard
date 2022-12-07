@@ -1,0 +1,81 @@
+Making sure pre-requisites are ready
+Kubernetes cluster
+Assuming minikube has been installed as detailed in the previous article, let's go through quickly the current status of minikube.
+
+$ minikube status
+m01
+host: Stopped
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Stopped
+
+Looks like Kubernetes cluster isn't operational. We will create one for the purpose of this demonstration.
+
+$ minikube start
+😄  minikube v1.9.2 on Ubuntu 20.04
+✨  Using the virtualbox driver based on existing profile
+👍  Starting control plane node m01 in cluster minikube
+🔄  Restarting existing virtualbox VM for "minikube" ...
+🐳  Preparing Kubernetes v1.18.0 on Docker 19.03.8 ...
+🌟  Enabling addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube"
+
+Next, we continue to verify the cluster status and create a simple nginx deployment on this newly created cluster.
+
+$ kubectl cluster-info
+Kubernetes master is running at https://192.168.99.100:8443
+KubeDNS is running at https://192.168.99.100:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+$ kubectl create deployment nginx-demo --image=nginx
+deployment.apps/nginx-demo created
+
+$ kubectl get deployment
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-demo   1/1     1            1           8s
+
+Enabling Dashboard
+Kubernetes ecosystem has a myriad of projects to enrich it's capabilities and functions; ranging from storage to security, tracing to logging. Setting up any of these projects would require a certain level of technical sophistication. However, minikube simplifies it with addons and comes with many addons to facilitate learning and experimenting with Kubernetes.
+
+For example, here's a list of all addons available on minikube
+
+$ minikube addons list
+|-----------------------------|----------|--------------|
+|         ADDON NAME          | PROFILE  |    STATUS    |
+|-----------------------------|----------|--------------|
+| dashboard                   | minikube | disabled     |
+| default-storageclass        | minikube | enabled ✅   |
+| efk                         | minikube | disabled     |
+| freshpod                    | minikube | disabled     |
+| gvisor                      | minikube | disabled     |
+| helm-tiller                 | minikube | disabled     |
+| ingress                     | minikube | disabled     |
+| ingress-dns                 | minikube | disabled     |
+| istio                       | minikube | disabled     |
+| istio-provisioner           | minikube | disabled     |
+| logviewer                   | minikube | disabled     |
+| metrics-server              | minikube | disabled     |
+| nvidia-driver-installer     | minikube | disabled     |
+| nvidia-gpu-device-plugin    | minikube | disabled     |
+| registry                    | minikube | disabled     |
+| registry-aliases            | minikube | disabled     |
+| registry-creds              | minikube | disabled     |
+| storage-provisioner         | minikube | enabled ✅   |
+| storage-provisioner-gluster | minikube | disabled     |
+|-----------------------------|----------|--------------|
+
+
+From the listing above, dashboard has not be enabled. We will enable dashboard functionality via a short command.
+
+$ minikube addons enable dashboard
+🌟  The 'dashboard' addon is enabled
+To view the dashboard, use minikube dashboard command to bring up the dashboard. However, note that the dashboard may also be accessed via host machines if minikube resides on a Virtual Machine (Some SSH forwarding plumbling needed). Thus, --url parameter is added to retrieve the access URL instead.
+
+$ minikube dashboard --url
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+http://127.0.0.1:45877/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
+We can access the dashboard once we point our web browser to the url listed above.
+https://www.linkedin.com/pulse/kubernetes-dashboard-from-minikube-eng-cheng-lim/
+
