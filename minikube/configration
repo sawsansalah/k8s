@@ -1,0 +1,25 @@
+minikube implements a local Kubernetes cluster on macOS, Linux, and Windows. minikube's primary goals are to be the best tool for local Kubernetes application development and to support all Kubernetes features that fit.
+
+Features
+minikube runs the latest stable release of Kubernetes, with support for standard Kubernetes features like:
+
+LoadBalancer - using minikube tunnel
+Multi-cluster - using minikube start -p <name>
+NodePorts - using minikube service
+Persistent Volumes
+Ingress
+Dashboard - minikube dashboard
+Container runtimes - minikube start --container-runtime
+Configure apiserver and kubelet options via command-line flags
+Supports common CI environments
+As well as developer-friendly features:
+
+Addons - a marketplace for developers to share configurations for running services on minikube
+NVIDIA GPU support - for machine learning
+Filesystem mounts
+For more information, see the official minikube website
+
+Installation
+See the Getting Started Guide
+See https://minikube.sigs.k8s.io/docs/
+
